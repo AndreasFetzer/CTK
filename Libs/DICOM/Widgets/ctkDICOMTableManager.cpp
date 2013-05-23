@@ -42,12 +42,14 @@ public:
 
   QVBoxLayout* layout;
   QBoxLayout* layoutTables;
+  QPushButton* changeLayoutButton;
 
   ctkDICOMTableView* patientsTable;
   ctkDICOMTableView* studiesTable;
   ctkDICOMTableView* seriesTable;
 
   void init();
+  void setCTKDICOMDatabase(QSharedPointer<ctkDICOMDatabase> db);
 };
 
 ctkDICOMTableManagerPrivate::ctkDICOMTableManagerPrivate(ctkDICOMTableManager &obj)
@@ -68,20 +70,44 @@ void ctkDICOMTableManagerPrivate::init()
 
   this->layout = new QVBoxLayout();
   this->layoutTables = new QBoxLayout(QBoxLayout::LeftToRight);
-  this->patientsTable = new ctkDICOMTableView();
-  this->studiesTable = new ctkDICOMTableView();
-  this->seriesTable = new ctkDICOMTableView();
+  this->patientsTable = new ctkDICOMTableView(q, "Patients");
+  this->studiesTable = new ctkDICOMTableView(q, "Studies");
+  this->studiesTable->setQueryForeignKey("PatientsUID");
+  this->seriesTable = new ctkDICOMTableView(q, "Series");
+  this->seriesTable->setQueryForeignKey("StudyInstanceUID");
+
+  QObject::connect(this->patientsTable, SIGNAL(signalSelectionChanged(QStringList)),
+                   this->studiesTable, SLOT(onUpdateQuery(QStringList)));
+  QObject::connect(this->studiesTable, SIGNAL(signalSelectionChanged(QStringList)),
+                   this->seriesTable, SLOT(onUpdateQuery(QStringList)));
+  QObject::connect(this->patientsTable, SIGNAL(signalFilterChanged(const QStringList&)),
+                   this->studiesTable, SLOT(onUpdateQuery(const QStringList&)));
+  QObject::connect(this->studiesTable, SIGNAL(signalFilterChanged(const QStringList&)),
+                   this->seriesTable, SLOT(onUpdateQuery(const QStringList&)));
+  QObject::connect(this->studiesTable, SIGNAL(signalQueryChanged(QStringList)),
+                   this->seriesTable, SLOT(onUpdateQuery(const QStringList&)));
   this->layoutTables->addWidget(patientsTable);
   this->layoutTables->addWidget(studiesTable);
   this->layoutTables->addWidget(seriesTable);
 
-  QPushButton* changeLayoutButton = new QPushButton("Change Layout");
-  QObject::connect(changeLayoutButton, SIGNAL(clicked()), q, SLOT(onChangeLayoutPushed()));
+  this->changeLayoutButton = new QPushButton();
+  QPixmap icon(":/Icons/vertical.png");
+  this->changeLayoutButton->setIcon(icon);
+  QObject::connect(this->changeLayoutButton, SIGNAL(clicked()), q, SLOT(onChangeLayoutPushed()));
 
-  this->layout->addWidget(changeLayoutButton);
+
+  this->layout->addWidget(this->changeLayoutButton);
+  this->layout->insertStretch(0);
   this->layout->addLayout(this->layoutTables);
 
   q->setLayout(layout);
+}
+
+void ctkDICOMTableManagerPrivate::setCTKDICOMDatabase(QSharedPointer<ctkDICOMDatabase> db)
+{
+  this->patientsTable->setCTKDicomDataBase(db);
+  this->studiesTable->setCTKDicomDataBase(db);
+  this->seriesTable->setCTKDicomDataBase(db);
 }
 
 //----------------------------------------------------------------------------
@@ -97,6 +123,15 @@ ctkDICOMTableManager::ctkDICOMTableManager(QWidget *parent)
   d->init();
 }
 
+ctkDICOMTableManager::ctkDICOMTableManager(QSharedPointer<ctkDICOMDatabase> db, QWidget *parent)
+  : Superclass(parent)
+  , d_ptr(new ctkDICOMTableManagerPrivate(*this))
+{
+  Q_D(ctkDICOMTableManager);
+  d->init();
+  d->setCTKDICOMDatabase(db);
+}
+
 ctkDICOMTableManager::~ctkDICOMTableManager()
 {
 
@@ -108,10 +143,14 @@ void ctkDICOMTableManager::onChangeLayoutPushed()
   if (d->layoutTables->direction() == QBoxLayout::TopToBottom)
   {
     this->changeTableLayout(QBoxLayout::LeftToRight);
+    QPixmap icon(":/Icons/vertical.png");
+    d->changeLayoutButton->setIcon(icon);
   }
   else
   {
     this->changeTableLayout(QBoxLayout::TopToBottom);
+    QPixmap icon(":/Icons/horizontal.png");
+    d->changeLayoutButton->setIcon(icon);
   }
 }
 
@@ -128,4 +167,10 @@ void ctkDICOMTableManager::changeTableLayout(QBoxLayout::Direction direction)
   d->layoutTables->addWidget(d->studiesTable);
   d->layoutTables->addWidget(d->seriesTable);
   d->layout->addLayout(d->layoutTables);
+}
+
+void ctkDICOMTableManager::setCTKDICOMDatabase(QSharedPointer<ctkDICOMDatabase> db)
+{
+  Q_D(ctkDICOMTableManager);
+  d->setCTKDICOMDatabase(db);
 }

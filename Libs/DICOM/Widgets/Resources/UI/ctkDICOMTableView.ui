@@ -13,38 +13,47 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLineEdit" name="leSearchBox">
-       <property name="styleSheet">
-        <string notr="true">color: rgb(188, 188, 188);
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>GroupBox</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLineEdit" name="leSearchBox">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(188, 188, 188);
 font: 14pt &quot;Lucida Grande&quot;;</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="placeholderText">
-        <string>Search...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pBDeleteSearch">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../../Widgets/Resources/ctkWidgets.qrc">
-         <normaloff>:/Icons/clear.svg</normaloff>:/Icons/clear.svg</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QTableView" name="tblDicomDatabaseView"/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Search...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pBDeleteSearch">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../../../../Widgets/Resources/ctkWidgets.qrc">
+            <normaloff>:/Icons/clear.svg</normaloff>:/Icons/clear.svg</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTableView" name="tblDicomDatabaseView"/>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>

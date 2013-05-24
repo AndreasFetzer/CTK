@@ -110,6 +110,19 @@ void ctkDICOMTableManagerPrivate::init()
   tableSplitter->setStyleSheet("QSplitter::handle {background-color: rgb(200,200,200);}"
                                "QSplitter::handle:horizontal {width: 2px;}"
                                "QSplitter::handle:vertical {height: 2px;}");
+//=======
+//  tableSplitter->setStyleSheet("QSplitter::handle {background-color: rgb(224,224,224);}QSplitter::handle:horizontal {width: 2px;}QSplitter::handle:vertical {height: 2px;}");
+
+//  QHBoxLayout* buttonLayout = new QHBoxLayout();
+//  this->changeLayoutButton = new QPushButton();
+//  this->changeLayoutButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+//  QPixmap icon(":/Icons/vertical.png");
+//  this->changeLayoutButton->setIcon(icon);
+//  QObject::connect(this->changeLayoutButton, SIGNAL(clicked()), q, SLOT(onChangeLayoutPushed()));
+//  buttonLayout->addWidget(this->changeLayoutButton);
+
+//  QSpacerItem* spacer = new QSpacerItem(20,20,QSizePolicy::Expanding,QSizePolicy::Fixed);
+//>>>>>>> WIP: Test with handle stylesheet for QSplitter
 
   this->layout->addWidget(this->tableSplitter);
 

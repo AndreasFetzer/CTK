@@ -326,6 +326,8 @@ void ctkXnatObject::commit ()
   while (itProperties.hasNext())
   {
     itProperties.next();
+    if (itProperties.key() == "ID")
+      continue;
     query.append(QString("&%1=%2").arg(itProperties.key(), itProperties.value()));
   }
 

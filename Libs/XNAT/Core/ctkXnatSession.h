@@ -167,6 +167,18 @@ public:
   /**
    * @brief TODO
    * @param uuid
+   * @param parameters
+   *
+   * @throws ctkXnatInvalidSessionException if the session is closed.
+   * @return
+   */
+  const QList<QVariantMap>& httpPut(const QString& resource,
+                const UrlParameters& parameters = UrlParameters(),
+                const HttpRawHeaders& rawHeaders = HttpRawHeaders());
+
+  /**
+   * @brief TODO
+   * @param uuid
    *
    * @throws ctkXnatInvalidSessionException if the session is closed.
    * @return
@@ -184,7 +196,6 @@ public:
 
   bool exists(const ctkXnatObject* object);
 
-  void save(ctkXnatObject* object);
   void remove(ctkXnatObject* object);
 
   void download(ctkXnatFile* file, const QString& fileName);

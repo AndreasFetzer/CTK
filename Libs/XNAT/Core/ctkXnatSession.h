@@ -172,7 +172,7 @@ public:
    * @throws ctkXnatInvalidSessionException if the session is closed.
    * @return
    */
-  const QList<QVariantMap>& httpPut(const QString& resource,
+   QUuid httpPut(const QString& resource,
                 const UrlParameters& parameters = UrlParameters(),
                 const HttpRawHeaders& rawHeaders = HttpRawHeaders());
 

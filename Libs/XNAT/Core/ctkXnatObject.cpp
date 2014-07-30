@@ -332,7 +332,8 @@ void ctkXnatObject::commit ()
   }
 
   // Execute the update
-  const QList<QVariantMap> results = this->session()->httpPut(query);
+  QUuid queryID = this->session()->httpPut(query);
+  const QList<QVariantMap> results = this->session()->httpSync(queryID);
 
   // If this xnat object did not exist before on the server set the ID returned by Xnat
   QVariant id = results[0]["ID"];

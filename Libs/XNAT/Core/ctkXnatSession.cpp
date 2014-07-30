@@ -488,18 +488,11 @@ QList<ctkXnatObject*> ctkXnatSession::httpResults(const QUuid& uuid, const QStri
   return d->results(restResult.data(), schemaType);
 }
 
-const QList<QVariantMap>& ctkXnatSession::httpPut(const QString& resource, const ctkXnatSession::UrlParameters& parameters, const ctkXnatSession::HttpRawHeaders& rawHeaders)
+QUuid ctkXnatSession::httpPut(const QString& resource, const ctkXnatSession::UrlParameters& parameters, const ctkXnatSession::HttpRawHeaders& rawHeaders)
 {
   Q_D(ctkXnatSession);
   d->checkSession();
-  QUuid queryId = d->xnat->put(resource);
-  qRestResult* result = d->xnat->takeResult(queryId);
-
-  if (!result || !result->error().isNull())
-  {
-    d->throwXnatException("Error occurred while creating the data.");
-  }
-  return result->results();
+  return d->xnat->put(resource);
 }
 
 //----------------------------------------------------------------------------

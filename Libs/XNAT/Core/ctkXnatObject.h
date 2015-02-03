@@ -133,6 +133,8 @@ public:
   virtual void addResource(QString foldername,
                            QString format = "", QString content = "", QString tags = "");
 
+  void refresh();
+
   //QObject* asyncObject() const;
 
   // *********************

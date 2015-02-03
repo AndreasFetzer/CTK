@@ -353,6 +353,19 @@ void ctkXnatObject::addResource(QString foldername, QString format,
 }
 
 //----------------------------------------------------------------------------
+void ctkXnatObject::refresh()
+{
+  qDebug() << "Refreshing: "<<this->name();
+  this->fetch();
+  QList<ctkXnatObject*> children = this->children();
+  foreach(ctkXnatObject* obj, children)
+  {
+    if (obj->isFetched())
+      obj->refresh();
+  }
+}
+
+//----------------------------------------------------------------------------
 bool ctkXnatObject::exists() const
 {
   return this->session()->exists(this);

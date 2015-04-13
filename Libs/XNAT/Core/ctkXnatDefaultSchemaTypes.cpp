@@ -29,3 +29,4 @@ QString ctkXnatDefaultSchemaTypes::XSI_ASSESSOR = "xnat:imageAssessorData";
 QString ctkXnatDefaultSchemaTypes::XSI_FILE = "xnat:abstractResource";
 QString ctkXnatDefaultSchemaTypes::XSI_RECONSTRUCTION = "xnat:reconstructedImageData";
 QString ctkXnatDefaultSchemaTypes::XSI_RESOURCE = "xnat:resource";
+QString ctkXnatDefaultSchemaTypes::XSI_CATALOG = "cat:Catalog";

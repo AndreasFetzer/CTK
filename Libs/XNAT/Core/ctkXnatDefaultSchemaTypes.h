@@ -39,6 +39,7 @@ struct CTK_XNAT_CORE_EXPORT ctkXnatDefaultSchemaTypes
   static QString XSI_FILE; // = "xnat:abstractResource"
   static QString XSI_RECONSTRUCTION; // = "xnat:reconstructedImageData"
   static QString XSI_RESOURCE; // = "xnat:resource"
+  static QString XSI_CATALOG; // = "cat:Catalog"
 };
 
 #endif // CTKXNATDEFAULTSCHEMATYPES_H

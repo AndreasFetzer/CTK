@@ -28,6 +28,7 @@
 #if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
 #include <QUrlQuery>
 #endif
+#include <QXmlInputSource>
 
 // --------------------------------------------------------------------------
 // ctkXnatAPI methods
@@ -108,8 +109,12 @@ void ctkXnatAPI::parseResponse(qRestResult* restResult, const QByteArray& respon
 }
 
 // --------------------------------------------------------------------------
-QList<QVariantMap> ctkXnatAPI::parseXmlResponse(qRestResult* /*restResult*/, const QByteArray& /*response*/)
+QList<QVariantMap> ctkXnatAPI::parseXmlResponse(qRestResult* /*restResult*/, const QByteArray& response)
 {
+//  qDebug()<<"GOT XML!!!";
+  QXmlInputSource xmlInput;
+  xmlInput.setData(response);
+//  qDebug()<<xmlInput.data();
   QList<QVariantMap> result;
   return result;
 }

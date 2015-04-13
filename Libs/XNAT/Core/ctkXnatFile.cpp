@@ -185,9 +185,15 @@ void ctkXnatFile::saveImpl()
   if (this->exists())
     query.append(QString("&%1=%2").arg("overwrite", true));
 
+  // Flag needed for file upload
   query.append(QString("&%1=%2").arg("inbody", "true"));
 
   this->session()->upload(filename, query);
+//  if (this->parent())
+    QString md5Query = this->parent()->resourceUri();
+  QUuid md5ID = this->session()->httpGet(md5Query);
+  this->session()->httpResults(md5ID, ctkXnatDefaultSchemaTypes::XSI_CATALOG);
+
   qint64 localFileSize = file.size();
   QUuid queryId = this->session()->httpHead(this->resourceUri());
   QMap<QByteArray, QByteArray> header = this->session()->httpHeadSync(queryId);

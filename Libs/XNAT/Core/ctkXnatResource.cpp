@@ -21,6 +21,7 @@
 
 #include "ctkXnatResource.h"
 
+#include "ctkXnatFile.h"
 #include "ctkXnatObjectPrivate.h"
 #include "ctkXnatSession.h"
 
@@ -28,6 +29,7 @@ const QString ctkXnatResource::TAGS = "tags";
 const QString ctkXnatResource::FORMAT = "format";
 const QString ctkXnatResource::CONTENT = "content";
 const QString ctkXnatResource::ID = "xnat_abstractresource_id";
+
 
 //----------------------------------------------------------------------------
 class ctkXnatResourcePrivate : public ctkXnatObjectPrivate
@@ -51,6 +53,23 @@ ctkXnatResource::ctkXnatResource(ctkXnatObject* parent, const QString& schemaTyp
 ctkXnatResource::~ctkXnatResource()
 {
 }
+
+
+// --------------------------------------------------------------------------
+QList<ctkXnatFile*> ctkXnatResource::files() const
+{
+  QList<ctkXnatFile*> result;
+  // TODO if not yet fetched -> fetch
+  foreach(ctkXnatObject* obj, this->children())
+  {
+    if (ctkXnatFile* o = dynamic_cast<ctkXnatFile*>(obj))
+    {
+      result.push_back(o);
+    }
+  }
+  return result;
+}
+
 
 //----------------------------------------------------------------------------
 QString ctkXnatResource::resourceUri() const

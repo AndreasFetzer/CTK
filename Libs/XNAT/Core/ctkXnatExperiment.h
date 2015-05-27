@@ -28,6 +28,9 @@
 #include "ctkXnatDefaultSchemaTypes.h"
 
 class ctkXnatExperimentPrivate;
+class ctkXnatScan;
+class ctkXnatAssessor;
+class ctkXnatReconstruction;
 
 /**
  * @ingroup XNAT_Core
@@ -51,7 +54,10 @@ public:
   void setLabel(const QString &label);
   QString label() const;
 
-
+  QList<ctkXnatScan*> scans() const;
+  QList<ctkXnatAssessor*> assessors() const;
+  QList<ctkXnatReconstruction*> reconstructions() const;
+  
   void reset();
 
 private:

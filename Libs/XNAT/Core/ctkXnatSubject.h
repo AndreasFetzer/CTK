@@ -29,6 +29,7 @@
 
 class ctkXnatProject;
 class ctkXnatSubjectPrivate;
+class ctkXnatExperiment;
 
 /**
  * @ingroup XNAT_Core
@@ -65,6 +66,8 @@ public:
 
   virtual QString resourceUri() const;
 
+  QList<ctkXnatExperiment*> experiments() const;
+  
   void reset();
 
   static const QString INSERT_DATE;

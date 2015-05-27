@@ -28,6 +28,8 @@
 #include "ctkXnatDefaultSchemaTypes.h"
 
 class ctkXnatResourcePrivate;
+class ctkXnatFile;
+
 
 /**
  * @ingroup XNAT_Core
@@ -73,6 +75,9 @@ public:
   static const QString TAGS;
   static const QString FORMAT;
   static const QString CONTENT;
+
+  QList<ctkXnatFile*> files() const;
+  
 
 private:
 

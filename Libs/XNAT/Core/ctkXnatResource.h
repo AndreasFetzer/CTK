@@ -76,6 +76,8 @@ public:
   static const QString FORMAT;
   static const QString CONTENT;
 
+  /// Convenience method for getting all children that are files
+  /// Calls fetch() if the current object is not yet fetched
   QList<ctkXnatFile*> files() const;
   
 

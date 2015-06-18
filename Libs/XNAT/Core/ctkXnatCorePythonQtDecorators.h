@@ -147,7 +147,7 @@ public Q_SLOTS:
 
   QDateTime lastModifiedTime(ctkXnatObject* object)
   {
-    return object->lastModifiedTime(); 
+    return object->lastModifiedTimeOnServer();
   }  
 
   void setLastModifiedTime(ctkXnatObject* object, const QDateTime& lastModifiedTime)
@@ -223,10 +223,13 @@ public Q_SLOTS:
   virtual void download(ctkXnatObject* object, const QString& str)
   {
     object->download (str);
-  }  
-  virtual void upload(ctkXnatObject* object, const QString& str)
+  }
+
+  ctkXnatResource* addResourceFolder(ctkXnatObject* object, const QString& foldername/*,
+                                     const QString& format, const QString& content,
+                                     const QString& tags*/)
   {
-    object->upload (str); 
+    return object->addResourceFolder(foldername/*, format, content, tags*/);
   }
 
   
@@ -426,23 +429,9 @@ public Q_SLOTS:
   return object->exists (arg);
     }
 
-  void save(ctkXnatSession * object, ctkXnatObject* arg)
-    {
-  object->save (arg);
-    }
-
   void remove(ctkXnatSession * object, ctkXnatObject* arg)
     {
   object->remove (arg);
-    }
-
-  void download(ctkXnatSession * object, ctkXnatFile* file, const QString& fileName)
-    {
-  object->download (file, fileName);
-    }
-  void download(ctkXnatSession * object, ctkXnatResource* resource, const QString& zipFileName)
-    {
-  object->download (resource, zipFileName);
     }
 
   QUuid httpHead(ctkXnatSession * object, const QString& resourceUri)

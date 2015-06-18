@@ -273,6 +273,25 @@ public Q_SLOTS:
     return object->session (); 
   }
 
+  void setLocalFilePath(ctkXnatFile* file, const QString& localFilePath)
+  {
+    file->setLocalFilePath(localFilePath);
+  }
+
+  void setFileFormat(ctkXnatFile* file, const QString& fileFormat)
+  {
+    file->setFileFormat(fileFormat);
+  }
+
+  void setFileContent(ctkXnatFile* file, const QString& fileContent)
+  {
+    file->setFileContent(fileContent);
+  }
+
+  void setFileTags(ctkXnatFile* file, const QString& fileTags)
+  {
+    file->setFileTags(fileTags);
+  }
 
   /********************************************************
    ********************************************************

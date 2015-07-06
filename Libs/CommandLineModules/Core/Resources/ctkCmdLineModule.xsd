@@ -427,6 +427,7 @@
             <xsd:restriction base="xsd:string">
               <xsd:enumeration value="fiberbundle"/>
               <xsd:enumeration value="model"/>
+              <xsd:enumeration value="unstructured"/>
             </xsd:restriction>
           </xsd:simpleType>
         </xsd:attribute>

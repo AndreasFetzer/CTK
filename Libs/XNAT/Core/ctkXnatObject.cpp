@@ -29,6 +29,7 @@
 #include "ctkXnatResourceFolder.h"
 #include "ctkXnatSession.h"
 
+
 #include <QDateTime>
 #include <QDebug>
 #include <QStringList>
@@ -71,6 +72,23 @@ ctkXnatObject::~ctkXnatObject()
   {
     delete child;
   }
+}
+
+
+// --------------------------------------------------------------------------
+QList<ctkXnatResource*> ctkXnatObject::resources() const
+{
+  QList<ctkXnatResource*> result;
+  //TODO if not yet fetched -> fetch
+  //TODO check if this is working since we now have the resource folder
+  foreach(ctkXnatObject* obj, this->children())
+  {
+    if (ctkXnatResource* o = dynamic_cast<ctkXnatResource*>(obj))
+    {
+      result.push_back(o);
+    }
+  }
+  return result;
 }
 
 //----------------------------------------------------------------------------

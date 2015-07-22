@@ -30,10 +30,12 @@
 #include <QObject>
 #include <QString>
 #include <QMetaType>
+#include <QDateTime>
 
 class ctkXnatResource;
 class ctkXnatSession;
 class ctkXnatObjectPrivate;
+class ctkXnatResource;
 
 /**
  * @ingroup XNAT_Core
@@ -51,6 +53,10 @@ public:
 
   /// Gets the global ID of the object.
   virtual QString id() const;
+
+  /// Convenience method for getting all children that are resources
+  /// Calls fetch() if the current object is not yet fetched
+  QList<ctkXnatResource*> resources() const;
 
   /// Sets the ID of the object.
   /// @warning You must not change the ID of an existing object

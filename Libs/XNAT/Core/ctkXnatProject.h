@@ -29,6 +29,8 @@
 
 class ctkXnatDataModel;
 class ctkXnatProjectPrivate;
+class ctkXnatSubject;
+
 
 /**
  * @ingroup XNAT_Core
@@ -57,6 +59,10 @@ public:
 
   QString projectDescription() const;
   void setProjectDescription(const QString &description);
+
+  /// Convenience method for getting all children that are subjects
+  /// Calls fetch() if the current project is not yet fetched
+  QList<ctkXnatSubject*> subjects() const;
 
   void reset();
 

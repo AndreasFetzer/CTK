@@ -28,6 +28,9 @@
 #include "ctkXnatDefaultSchemaTypes.h"
 
 class ctkXnatExperimentPrivate;
+class ctkXnatScan;
+class ctkXnatAssessor;
+class ctkXnatReconstruction;
 
 /**
  * @ingroup XNAT_Core
@@ -63,6 +66,10 @@ public:
   QString imageModality() const;
   void setImageModality(const QString &imageModality);
 
+  QList<ctkXnatScan*> scans() const;
+  QList<ctkXnatAssessor*> assessors() const;
+  QList<ctkXnatReconstruction*> reconstructions() const;
+  
   void reset();
 
   static const QString DATE_OF_ACQUISITION;

@@ -67,6 +67,14 @@ ctkMacroBuildLib(
   LIBRARY_TYPE ${CTK_LIBRARY_MODE}
   )
 
+if(CTK_WRAP_PYTHONQT_LIGHT)
+  ctkMacroBuildLibWrapper(
+    TARGET ${PROJECT_NAME}
+    SRCS ${KIT_SRCS}
+    WRAPPER_LIBRARY_TYPE ${CTK_LIBRARY_MODE}
+    )
+endif()
+
 # Testing
 if(BUILD_TESTING)
   add_subdirectory(Testing)

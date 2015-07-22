@@ -64,7 +64,10 @@ QList<ctkXnatProject*> ctkXnatDataModel::projects() const
   QList<ctkXnatProject*> result;
   foreach(ctkXnatObject* obj, this->children())
   {
-    result.push_back(static_cast<ctkXnatProject*>(obj));
+    if (ctkXnatProject* o = dynamic_cast<ctkXnatProject*>(obj))
+    {
+      result.push_back(o);
+    }
   }
   return result;
 }

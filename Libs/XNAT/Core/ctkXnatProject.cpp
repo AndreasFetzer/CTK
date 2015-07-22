@@ -64,6 +64,22 @@ ctkXnatProject::~ctkXnatProject()
 {
 }
 
+
+// --------------------------------------------------------------------------
+QList<ctkXnatSubject*> ctkXnatProject::subjects() const
+{
+  QList<ctkXnatSubject*> result;
+  foreach(ctkXnatObject* obj, this->children())
+  {
+    if (ctkXnatSubject* o = dynamic_cast<ctkXnatSubject*>(obj))
+    {
+      result.push_back(o);
+    }
+  }
+  return result;
+}
+
+
 //----------------------------------------------------------------------------
 QString ctkXnatProject::resourceUri() const
 {

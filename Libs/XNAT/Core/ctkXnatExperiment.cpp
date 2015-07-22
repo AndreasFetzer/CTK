@@ -69,6 +69,102 @@ ctkXnatExperiment::~ctkXnatExperiment()
 {
 }
 
+
+// --------------------------------------------------------------------------
+QList<ctkXnatScan*> ctkXnatExperiment::scans() const
+{
+  QList<ctkXnatScan*> result;
+
+  ctkXnatScanFolder* folder = NULL;
+  
+  foreach(ctkXnatObject* obj, this->children())
+  {
+    ctkXnatScanFolder* o = dynamic_cast<ctkXnatScanFolder*>(obj);
+    if (o)
+    {
+      folder = o;
+      break;
+    }
+  }
+
+  if (folder)
+  {
+    folder->fetch();
+    foreach(ctkXnatObject* obj, folder->children())
+    {
+      ctkXnatScan* o = dynamic_cast<ctkXnatScan*>(obj);
+      if (o)
+	result.push_back (o);
+    }
+  }
+  
+  return result;
+}
+
+
+// --------------------------------------------------------------------------
+QList<ctkXnatAssessor*> ctkXnatExperiment::assessors() const
+{
+  QList<ctkXnatAssessor*> result;
+
+  ctkXnatAssessorFolder* folder = NULL;
+  
+  foreach(ctkXnatObject* obj, this->children())
+  {
+    ctkXnatAssessorFolder* o = dynamic_cast<ctkXnatAssessorFolder*>(obj);
+    if (o)
+    {
+      folder = o;
+      break;
+    }
+  }
+
+  if (folder)
+  {
+    folder->fetch();
+    foreach(ctkXnatObject* obj, folder->children())
+    {
+      ctkXnatAssessor* o = dynamic_cast<ctkXnatAssessor*>(obj);
+      if (o)
+	result.push_back (o);
+    }
+  }
+  
+  return result;
+}
+
+
+// --------------------------------------------------------------------------
+QList<ctkXnatReconstruction*> ctkXnatExperiment::reconstructions() const
+{
+  QList<ctkXnatReconstruction*> result;
+
+  ctkXnatReconstructionFolder* folder = NULL;
+  
+  foreach(ctkXnatObject* obj, this->children())
+  {
+    ctkXnatReconstructionFolder* o = dynamic_cast<ctkXnatReconstructionFolder*>(obj);
+    if (o)
+    {
+      folder = o;
+      break;
+    }
+  }
+
+  if (folder)
+  {
+    folder->fetch();
+    foreach(ctkXnatObject* obj, folder->children())
+    {
+      ctkXnatReconstruction* o = dynamic_cast<ctkXnatReconstruction*>(obj);
+      if (o)
+	result.push_back (o);
+    }
+  }
+  
+  return result;
+}
+
 //----------------------------------------------------------------------------
 QString ctkXnatExperiment::resourceUri() const
 {

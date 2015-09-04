@@ -56,7 +56,7 @@ public:
 
   /// Convenience method for getting all children that are resources
   /// Calls fetch() if the current object is not yet fetched
-  QList<ctkXnatResource*> resources() const;
+  QList<ctkXnatResource*> resources();
 
   /// Sets the ID of the object.
   /// @warning You must not change the ID of an existing object

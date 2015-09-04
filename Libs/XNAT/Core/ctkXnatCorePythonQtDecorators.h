@@ -101,10 +101,11 @@ public Q_SLOTS:
    ********************************************************
    ********************************************************/
   
-  QList<ctkXnatResource*> resources(ctkXnatObject* object) const
+  QList<ctkXnatResource*> resources(ctkXnatObject* object)
   {
     return object->resources(); 
   }
+
   void setId(ctkXnatObject* object, const QString& id)
   {
     object->setId (id); 
@@ -263,14 +264,20 @@ public Q_SLOTS:
   {
     return object->reconstructions(); 
   }
-  QList<ctkXnatFile*> files(ctkXnatResource* object) const
+
+  QString seriesDescription (ctkXnatScan* object) const
+  {
+    return object->seriesDescription();
+  }
+
+  QList<ctkXnatFile*> files(ctkXnatResource* object)
   {
     return object->files(); 
   }
 
   ctkXnatSession* session(ctkXnatDataModel* object) const
   {
-    return object->session (); 
+    return object->session();
   }
 
   void setLocalFilePath(ctkXnatFile* file, const QString& localFilePath)

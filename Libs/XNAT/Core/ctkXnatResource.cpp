@@ -56,10 +56,14 @@ ctkXnatResource::~ctkXnatResource()
 
 
 // --------------------------------------------------------------------------
-QList<ctkXnatFile*> ctkXnatResource::files() const
+QList<ctkXnatFile*> ctkXnatResource::files()
 {
   QList<ctkXnatFile*> result;
-  // TODO if not yet fetched -> fetch
+
+  // If this is not yet fetched there will be no childred -> fetch it!
+  if (!this->isFetched())
+    this->fetch();
+
   foreach(ctkXnatObject* obj, this->children())
   {
     if (ctkXnatFile* o = dynamic_cast<ctkXnatFile*>(obj))

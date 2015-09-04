@@ -74,18 +74,34 @@ ctkXnatObject::~ctkXnatObject()
 
 
 // --------------------------------------------------------------------------
-QList<ctkXnatResource*> ctkXnatObject::resources() const
+QList<ctkXnatResource*> ctkXnatObject::resources()
 {
   QList<ctkXnatResource*> result;
-  //TODO if not yet fetched -> fetch
-  //TODO check if this is working since we now have the resource folder
-  foreach(ctkXnatObject* obj, this->children())
+
+  // If the object is not yet fetched there will be no children -> fetch it!
+  if (!this->isFetched())
+    this->fetch();
+
+  // Search the children for the resource folder (contains the resources)
+  foreach(ctkXnatObject* child, this->children())
   {
-    if (ctkXnatResource* o = dynamic_cast<ctkXnatResource*>(obj))
+    ctkXnatResourceFolder* resourceFolder = dynamic_cast<ctkXnatResourceFolder*>(child);
+
+    // If there is a resource folder, get all the contained resources
+    if (resourceFolder)
     {
-      result.push_back(o);
+      resourceFolder->fetch();
+      foreach(ctkXnatObject* resource, resourceFolder->children())
+      {
+        result.push_back(dynamic_cast<ctkXnatResource*>(resource));
+      }
+
+      // Return, since there can be only one resource folder
+      return result;
     }
   }
+
+  // Return empty result list
   return result;
 }
 

@@ -25,6 +25,7 @@
 #include "ctkXnatDataModel.h"
 #include "ctkXnatDefaultSchemaTypes.h"
 #include "ctkXnatException.h"
+#include "ctkXnatFile.h"
 #include "ctkXnatResource.h"
 #include "ctkXnatResourceFolder.h"
 #include "ctkXnatSession.h"
@@ -103,6 +104,33 @@ QList<ctkXnatResource*> ctkXnatObject::resources()
 
   // Return empty result list
   return result;
+}
+
+// --------------------------------------------------------------------------
+QList<ctkXnatFile*> ctkXnatObject::files()
+{
+  QString resourceFilesUri = this->resourceUri() + "/files";
+  ctkXnatSession* const session = this->session();
+  QUuid queryId = session->httpGet(resourceFilesUri);
+
+  QList<ctkXnatObject*> result = session->httpResults(queryId,
+                                                     ctkXnatDefaultSchemaTypes::XSI_FILE);
+
+  QList<ctkXnatFile*> files;
+  foreach (ctkXnatObject* obj, result)
+  {
+    QString label = obj->name();
+    if (label.isEmpty())
+    {
+      label = "NO NAME";
+    }
+    obj->setName(label);
+    ctkXnatFile* file = dynamic_cast<ctkXnatFile*>(obj);
+    if ( file != NULL)
+      files<<file;
+  }
+  // Return file list
+  return files;
 }
 
 //----------------------------------------------------------------------------

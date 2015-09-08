@@ -32,10 +32,10 @@
 #include <QMetaType>
 #include <QDateTime>
 
-class ctkXnatResource;
-class ctkXnatSession;
+class ctkXnatFile;
 class ctkXnatObjectPrivate;
 class ctkXnatResource;
+class ctkXnatSession;
 
 /**
  * @ingroup XNAT_Core
@@ -57,6 +57,10 @@ public:
   /// Convenience method for getting all children that are resources
   /// Calls fetch() if the current object is not yet fetched
   QList<ctkXnatResource*> resources();
+
+  /// Convenience method for getting all children that are files
+  /// Calls fetch() if the current object is not yet fetched
+  QList<ctkXnatFile*> files();
 
   /// Sets the ID of the object.
   /// @warning You must not change the ID of an existing object

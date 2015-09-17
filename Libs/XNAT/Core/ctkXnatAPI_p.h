@@ -48,6 +48,8 @@ public:
     const Parameters& parameters = Parameters(),
     const RawHeaders& rawHeaders = RawHeaders());
 
+    void setUseSystemProxyConfiguration(bool);
+
 protected:
   void parseResponse(qRestResult* restResult, const QByteArray& result);
 

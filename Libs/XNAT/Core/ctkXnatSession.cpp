@@ -76,7 +76,7 @@ public:
   int timeToSessionTimeOutWarning;
 
   // The time in milliseconds untill the signal sessionTimedOut gets emitted
-  int timeToSessionTimedOut = 60000;
+  int timeToSessionTimedOut;
 
   ctkXnatSessionPrivate(const ctkXnatLoginProfile& loginProfile, ctkXnatSession* q);
   ~ctkXnatSessionPrivate();
@@ -102,6 +102,7 @@ ctkXnatSessionPrivate::ctkXnatSessionPrivate(const ctkXnatLoginProfile& loginPro
   , defaultDownloadDir(".")
   , q(q)
   , timer(new QTimer(q))
+  , timeToSessionTimedOut(60000)
 {
   // TODO This is a workaround for connecting to sites with self-signed
   // certificate. Should be replaced with something more clever.
@@ -727,4 +728,12 @@ void ctkXnatSession::emitSessionTimeOut()
     d->timer->stop();
     emit sessionTimedOut();
   }
+}
+
+//----------------------------------------------------------------------------
+void ctkXnatSession::setUseSystemProxyConfiguration(bool status)
+{
+  Q_D(ctkXnatSession);
+
+  d->xnat->setUseSystemProxyConfiguration(status);
 }

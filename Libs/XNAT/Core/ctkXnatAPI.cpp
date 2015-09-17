@@ -29,6 +29,8 @@
 #include <QNetworkReply>
 #include <QRegExp>
 #include <QUrl>
+#include <QNetworkProxyFactory>
+
 #if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
 #include <QUrlQuery>
 #endif
@@ -45,6 +47,12 @@ ctkXnatAPI::ctkXnatAPI(QObject* _parent)
 // --------------------------------------------------------------------------
 ctkXnatAPI::~ctkXnatAPI()
 {
+}
+
+// --------------------------------------------------------------------------
+void ctkXnatAPI::setUseSystemProxyConfiguration(bool status)
+{
+  QNetworkProxyFactory::setUseSystemConfiguration(status);
 }
 
 // --------------------------------------------------------------------------

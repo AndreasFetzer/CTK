@@ -159,6 +159,8 @@ public:
     */
   void setDefaultDownloadDir(const QString& path);
 
+  void setUseSystemProxyConfiguration(bool);
+
   /**
     * @brief returns the default download location
     * @return the default download directory as string

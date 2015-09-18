@@ -78,7 +78,10 @@ QList<ctkXnatFile*> ctkXnatResource::files()
 //----------------------------------------------------------------------------
 QString ctkXnatResource::resourceUri() const
 {
-  return QString("%1/%2").arg(parent()->resourceUri(), this->name());
+  if (this->name().length() == 0 || this->name() == "NO NAME")
+    return QString("%1/%2").arg(parent()->resourceUri(), this->id());
+  else
+    return QString("%1/%2").arg(parent()->resourceUri(), this->name());
 }
 
 //----------------------------------------------------------------------------

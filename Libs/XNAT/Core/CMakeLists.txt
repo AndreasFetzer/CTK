@@ -13,6 +13,7 @@ set(KIT_SRCS
   ctkXnatException.cpp
   ctkXnatExperiment.cpp
   ctkXnatFile.cpp
+  ctkXnatImageSession.cpp
   ctkXnatListModel.cpp
   ctkXnatLoginProfile.cpp
   ctkXnatObject.cpp
@@ -28,6 +29,7 @@ set(KIT_SRCS
   ctkXnatSession.cpp
   ctkXnatSettings.cpp
   ctkXnatSubject.cpp
+  ctkXnatSubjectVariables.cpp
   ctkXnatTreeItem.cpp
   ctkXnatTreeItem_p.h
   ctkXnatTreeModel.cpp

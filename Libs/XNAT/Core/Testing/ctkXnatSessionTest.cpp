@@ -32,10 +32,12 @@
 #include <QUuid>
 
 #include <ctkXnatDataModel.h>
+#include <ctkXnatImageSession.h>
 #include <ctkXnatLoginProfile.h>
 #include <ctkXnatSession.h>
 #include <ctkXnatProject.h>
 #include <ctkXnatSubject.h>
+#include <ctkXnatSubjectVariables.h>
 #include <ctkXnatException.h>
 
 class ctkXnatSessionTestCasePrivate
@@ -69,9 +71,12 @@ void ctkXnatSessionTestCase::initTestCase()
   Q_D(ctkXnatSessionTestCase);
 
   d->LoginProfile.setName("ctk");
-  d->LoginProfile.setServerUrl(QString("https://central.xnat.org"));
-  d->LoginProfile.setUserName("ctk");
-  d->LoginProfile.setPassword("ctk-xnat");
+  d->LoginProfile.setServerUrl(QString("http://192.168.56.101"));
+  d->LoginProfile.setUserName("admin");
+  d->LoginProfile.setPassword("admin");
+//  d->LoginProfile.setServerUrl(QString("https://central.xnat.org"));
+//  d->LoginProfile.setUserName("ctk");
+//  d->LoginProfile.setPassword("ctk-xnat2015");
 }
 
 void ctkXnatSessionTestCase::init()
@@ -223,12 +228,14 @@ void ctkXnatSessionTestCase::testCreateProject()
   bool exists = d->Session->exists(project);
   QVERIFY(!exists);
 
-  d->Session->save(project);
+//  d->Session->save(project);
+  project->save();
 
   exists = d->Session->exists(project);
   QVERIFY(exists);
 
-  d->Session->remove(project);
+//  d->Session->remove(project);
+  project->erase();
 
   exists = d->Session->exists(project);
   QVERIFY(!exists);
@@ -263,6 +270,70 @@ void ctkXnatSessionTestCase::testCreateSubject()
   subject->save();
 
   QVERIFY(!subject->id().isNull());
+
+  subject->erase();
+
+  QVERIFY(!subject->exists());
+
+  project->erase();
+
+  QVERIFY(!project->exists());
+}
+
+void ctkXnatSessionTestCase::testCreateExperiment()
+{
+  Q_D(ctkXnatSessionTestCase);
+
+  ctkXnatDataModel* dataModel = d->Session->dataModel();
+
+  QString projectId = QString("CTK_") + QUuid::createUuid().toString().mid(1, 8);
+  d->Project = projectId;
+
+  ctkXnatProject* project = new ctkXnatProject(dataModel);
+  project->setId(projectId);
+  project->setName(projectId);
+  project->setDescription("CTK_test_project");
+
+  QVERIFY(!project->exists());
+
+  project->save();
+
+  QVERIFY(project->exists());
+
+  ctkXnatSubject* subject = new ctkXnatSubject(project);
+
+  QString subjectName = QString("CTK_S") + QUuid::createUuid().toString().mid(1, 8);
+  subject->setId(subjectName);
+  subject->setName(subjectName);
+
+  subject->save();
+
+  QVERIFY(!subject->id().isNull());
+
+  // Create an experiment of type xnat:SubjectVariablesData
+  ctkXnatSubjectVariables* subVarData = new ctkXnatSubjectVariables(subject);
+  QString subjectVDName = QString("CTK_SVD_") + QUuid::createUuid().toString().mid(1, 8);
+  subVarData->setName(subjectVDName);
+  subVarData->save();
+
+  QVERIFY(subVarData->exists());
+
+  // Create an experiment of type xnat:XnatImageSessionData,
+  ctkXnatImageSession* subImageSession = new ctkXnatImageSession(subject, ctkXnatDefaultSchemaTypes::XSI_CT_SESSION);
+  QString subjectISName = QString("CTK_SIS_") + QUuid::createUuid().toString().mid(1, 8);
+  subImageSession->setName(subjectISName);
+  subImageSession->save();
+
+  QVERIFY(subImageSession->exists());
+
+  // Clean up
+  subVarData->erase();
+
+  QVERIFY(!subVarData->exists());
+
+  subImageSession->erase();
+
+  QVERIFY(!subImageSession->exists());
 
   subject->erase();
 

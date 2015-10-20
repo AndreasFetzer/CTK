@@ -27,6 +27,7 @@
 #include "ctkXnatException.h"
 #include "ctkXnatExperiment.h"
 #include "ctkXnatFile.h"
+#include "ctkXnatImageSession.h"
 #include "ctkXnatLoginProfile.h"
 #include "ctkXnatObject.h"
 #include "ctkXnatProject.h"
@@ -34,6 +35,7 @@
 #include "ctkXnatResource.h"
 #include "ctkXnatScan.h"
 #include "ctkXnatSubject.h"
+#include "ctkXnatSubjectVariables.h"
 
 #include <QDateTime>
 #include <QDebug>
@@ -325,6 +327,8 @@ ctkXnatSession::ctkXnatSession(const ctkXnatLoginProfile& loginProfile)
   qRegisterMetaType<ctkXnatResource>(qPrintable(ctkXnatDefaultSchemaTypes::XSI_RESOURCE));
   qRegisterMetaType<ctkXnatAssessor>(qPrintable(ctkXnatDefaultSchemaTypes::XSI_ASSESSOR));
   qRegisterMetaType<ctkXnatFile>(qPrintable(ctkXnatDefaultSchemaTypes::XSI_FILE));
+  qRegisterMetaType<ctkXnatImageSession>(qPrintable(ctkXnatDefaultSchemaTypes::XSI_IMAGE_SESSION));
+  qRegisterMetaType<ctkXnatSubjectVariables>(qPrintable(ctkXnatDefaultSchemaTypes::XSI_SUBJECT_VARIABLES_DATA));
   
   QString url = d->loginProfile.serverUrl().toString();
   d->xnat->setServerUrl(url);

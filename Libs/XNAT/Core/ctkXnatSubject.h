@@ -99,6 +99,8 @@ private:
   friend class qRestResult;
 
   virtual void fetchImpl();
+  QList<ctkXnatObject*> fetchSubjectVariablesData();
+  QList<ctkXnatObject*> fetchImageSessionData();
 
   virtual void downloadImpl(const QString&);
 

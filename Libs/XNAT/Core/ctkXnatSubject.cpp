@@ -23,6 +23,7 @@
 
 #include "ctkXnatDefaultSchemaTypes.h"
 #include "ctkXnatExperiment.h"
+#include "ctkXnatImageSession.h"
 #include "ctkXnatObjectPrivate.h"
 #include "ctkXnatProject.h"
 #include "ctkXnatSession.h"
@@ -215,28 +216,15 @@ void ctkXnatSubject::reset()
 //----------------------------------------------------------------------------
 void ctkXnatSubject::fetchImpl()
 {
-  QString experimentsUri = this->resourceUri() + "/experiments";
-  ctkXnatSession* const session = this->session();
-  QMap<QString, QString> paramMap;
-  QString arglist = QString("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10")
-    .arg(ctkXnatObject::ID)
-    .arg(ctkXnatObject::LABEL)
-    .arg(ctkXnatObject::XSI_SCHEMA_TYPE)
-    .arg(INSERT_DATE)
-    .arg(INSERT_USER)
-    .arg(ctkXnatObject::URI)
-    .arg(ctkXnatExperiment::DATE_OF_ACQUISITION)
-    .arg(ctkXnatExperiment::TIME_OF_ACQUISITION)
-    .arg(ctkXnatExperiment::SCANNER_TYPE)
-    .arg(ctkXnatExperiment::IMAGE_MODALITY);
-  paramMap.insert("columns", arglist);
-  QUuid queryId = session->httpGet(experimentsUri, paramMap);
-  QList<ctkXnatObject*> experiments = session->httpResults(queryId,
-                                                           ctkXnatDefaultSchemaTypes::XSI_EXPERIMENT);
+
+  QList<ctkXnatObject*> experiments;
+  experiments.append(this->fetchImageSessionData());
+  experiments.append(this->fetchSubjectVariablesData());
 
   foreach (ctkXnatObject* experiment, experiments)
   {
     QString label = experiment->name();
+    qDebug() << "ADDING EXPERIMENTS: "<<label;
     if (!label.isEmpty())
     {
       experiment->setId(label);
@@ -245,6 +233,48 @@ void ctkXnatSubject::fetchImpl()
     this->add(experiment);
   }
   this->fetchResources();
+}
+
+//----------------------------------------------------------------------------
+QList<ctkXnatObject*> ctkXnatSubject::fetchSubjectVariablesData()
+{
+  QString experimentsUri = this->resourceUri() + "/experiments";
+  ctkXnatSession* const session = this->session();
+  QMap<QString, QString> paramMap;
+  QString arglist = QString("%1,%2,%3,%4,%5,%6")
+    .arg(ctkXnatObject::ID)
+    .arg(ctkXnatObject::LABEL)
+    .arg(INSERT_DATE)
+    .arg(INSERT_USER)
+    .arg(ctkXnatObject::URI)
+    .arg(ctkXnatObject::XSI_SCHEMA_TYPE);
+  paramMap.insert("columns", arglist);
+  paramMap.insert("xsiType", ctkXnatDefaultSchemaTypes::XSI_SUBJECT_VARIABLES_DATA);
+  QUuid queryId = session->httpGet(experimentsUri, paramMap);
+  return session->httpResults(queryId, ctkXnatDefaultSchemaTypes::XSI_SUBJECT_VARIABLES_DATA);
+}
+
+//----------------------------------------------------------------------------
+QList<ctkXnatObject*> ctkXnatSubject::fetchImageSessionData()
+{
+  QString experimentsUri = this->resourceUri() + "/experiments";
+  ctkXnatSession* const session = this->session();
+  QMap<QString, QString> paramMap;
+  QString arglist = QString("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10")
+    .arg(ctkXnatObject::ID)
+    .arg(ctkXnatObject::LABEL)
+    .arg(INSERT_DATE)
+    .arg(INSERT_USER)
+    .arg(ctkXnatObject::URI)
+    .arg(ctkXnatImageSession::DATE_OF_ACQUISITION)
+    .arg(ctkXnatImageSession::TIME_OF_ACQUISITION)
+    .arg(ctkXnatImageSession::SCANNER_TYPE)
+    .arg(ctkXnatImageSession::IMAGE_MODALITY)
+    .arg(ctkXnatObject::XSI_SCHEMA_TYPE);
+  paramMap.insert("columns", arglist);
+  paramMap.insert("xsiType", ctkXnatDefaultSchemaTypes::XSI_IMAGE_SESSION);
+  QUuid queryId = session->httpGet(experimentsUri, paramMap);
+  return session->httpResults(queryId, ctkXnatDefaultSchemaTypes::XSI_IMAGE_SESSION);
 }
 
 //----------------------------------------------------------------------------

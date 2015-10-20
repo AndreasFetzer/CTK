@@ -43,10 +43,12 @@ ctkXnatAPI::~ctkXnatAPI()
 {
 }
 
+#include <QDebug>
 // --------------------------------------------------------------------------
 QUuid ctkXnatAPI::get(const QString& resource, const Parameters& parameters, const qRestAPI::RawHeaders& rawHeaders)
 {
   QUrl url = this->createUrl(resource, parameters);
+  qDebug()<<url;
 #if (QT_VERSION < QT_VERSION_CHECK(5,0,0))
   url.addQueryItem("format", "json");
 #else

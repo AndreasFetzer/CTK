@@ -34,6 +34,8 @@ struct CTK_XNAT_CORE_EXPORT ctkXnatDefaultSchemaTypes
   static QString XSI_PROJECT; // = "xnat:projectData"
   static QString XSI_SUBJECT; // = "xnat:subjectData"
   static QString XSI_EXPERIMENT; // = "xnat:experimentData"
+  static QString XSI_IMAGE_SESSION; // = "xnat:imageSessionData"
+//  static QString XSI_SUBJECT_VARIABLES_DATA; // = "xnat:subjectVariablesData"
   static QString XSI_SCAN; // = "xnat:imageScanData"
   static QString XSI_ASSESSOR; // = "xnat:imageAssessorData"
   static QString XSI_FILE; // = "xnat:abstractResource"

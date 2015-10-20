@@ -60,6 +60,8 @@ private slots:
 
   void testCreateSubject();
 
+  void testCreateExperiment();
+
 private:
   QScopedPointer<ctkXnatSessionTestCasePrivate> d_ptr;
 

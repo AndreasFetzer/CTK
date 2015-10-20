@@ -19,49 +19,34 @@
 
 =============================================================================*/
 
-#ifndef ctkXnatExperiment_h
-#define ctkXnatExperiment_h
+#ifndef ctkXnatSubjectVariables_h
+#define ctkXnatSubjectVariables_h
 
 #include "ctkXNATCoreExport.h"
 
-#include "ctkXnatObject.h"
 #include "ctkXnatDefaultSchemaTypes.h"
+#include "ctkXnatExperiment.h"
 
-class ctkXnatExperimentPrivate;
+class ctkXnatObject;
+class ctkXnatSubjectVariablesPrivate;
 
 /**
  * @ingroup XNAT_Core
  */
-class CTK_XNAT_CORE_EXPORT ctkXnatExperiment : public ctkXnatObject
+class CTK_XNAT_CORE_EXPORT ctkXnatSubjectVariables : public ctkXnatExperiment
 {
 
 public:
 
-  ctkXnatExperiment(ctkXnatObject* parent = 0, const QString& schemaType = ctkXnatDefaultSchemaTypes::XSI_EXPERIMENT);
-  ctkXnatExperiment(ctkXnatObjectPrivate &dd, ctkXnatObject* parent = 0,
-                    const QString& schemaType = ctkXnatDefaultSchemaTypes::XSI_EXPERIMENT);
+  ctkXnatSubjectVariables(ctkXnatObject* parent = 0, const QString& schemaType = ctkXnatDefaultSchemaTypes::XSI_SUBJECT_VARIABLES_DATA);
 
-  virtual ~ctkXnatExperiment();
-
-  virtual QString resourceUri() const;
-
-  /// Sets the name, i.e. the label of the subject
-  virtual void setName(const QString &name);
-  /// Returns the name, i.e. the label of the subject
-  virtual QString name() const;
-
-  void setLabel(const QString &label);
-  QString label() const;
-
-  void reset();
+  virtual ~ctkXnatSubjectVariables();
 
 private:
 
   virtual void fetchImpl();
 
-  virtual void downloadImpl(const QString&);
-
-  Q_DECLARE_PRIVATE(ctkXnatExperiment)
+  Q_DECLARE_PRIVATE(ctkXnatSubjectVariables)
 };
 
 #endif

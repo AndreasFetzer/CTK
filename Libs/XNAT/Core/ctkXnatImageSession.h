@@ -19,49 +19,50 @@
 
 =============================================================================*/
 
-#ifndef ctkXnatExperiment_h
-#define ctkXnatExperiment_h
+#ifndef ctkXnatImageSession_h
+#define ctkXnatImageSession_h
 
 #include "ctkXNATCoreExport.h"
 
-#include "ctkXnatObject.h"
+#include "ctkXnatExperiment.h"
 #include "ctkXnatDefaultSchemaTypes.h"
 
-class ctkXnatExperimentPrivate;
+class ctkXnatImageSessionPrivate;
 
 /**
  * @ingroup XNAT_Core
  */
-class CTK_XNAT_CORE_EXPORT ctkXnatExperiment : public ctkXnatObject
+class CTK_XNAT_CORE_EXPORT ctkXnatImageSession : public ctkXnatExperiment
 {
 
 public:
 
-  ctkXnatExperiment(ctkXnatObject* parent = 0, const QString& schemaType = ctkXnatDefaultSchemaTypes::XSI_EXPERIMENT);
-  ctkXnatExperiment(ctkXnatObjectPrivate &dd, ctkXnatObject* parent = 0,
-                    const QString& schemaType = ctkXnatDefaultSchemaTypes::XSI_EXPERIMENT);
+  ctkXnatImageSession(ctkXnatObject* parent = 0, const QString& schemaType = ctkXnatDefaultSchemaTypes::XSI_IMAGE_SESSION);
 
-  virtual ~ctkXnatExperiment();
+  virtual ~ctkXnatImageSession();
 
-  virtual QString resourceUri() const;
+  QString dateOfAcquisition() const;
+  void setDateOfAcquisition(const QString &dateOfAcquisition);
 
-  /// Sets the name, i.e. the label of the subject
-  virtual void setName(const QString &name);
-  /// Returns the name, i.e. the label of the subject
-  virtual QString name() const;
+  QString timeOfAcquisition() const;
+  void setTimeOfAcquisition(const QString &timeOfAcquisition);
 
-  void setLabel(const QString &label);
-  QString label() const;
+  QString scannerType() const;
+  void setScannerType(const QString &scannerType);
 
-  void reset();
+  QString imageModality() const;
+  void setImageModality(const QString &imageModality);
+
+  static const QString DATE_OF_ACQUISITION;
+  static const QString TIME_OF_ACQUISITION;
+  static const QString SCANNER_TYPE;
+  static const QString IMAGE_MODALITY;
 
 private:
 
   virtual void fetchImpl();
 
-  virtual void downloadImpl(const QString&);
-
-  Q_DECLARE_PRIVATE(ctkXnatExperiment)
+  Q_DECLARE_PRIVATE(ctkXnatImageSession)
 };
 
 #endif

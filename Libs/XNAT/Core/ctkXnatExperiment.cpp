@@ -34,11 +34,6 @@
 
 #include <QDebug>
 
-const QString ctkXnatExperiment::DATE_OF_ACQUISITION = "date";
-const QString ctkXnatExperiment::TIME_OF_ACQUISITION = "time";
-const QString ctkXnatExperiment::SCANNER_TYPE = "scanner";
-const QString ctkXnatExperiment::IMAGE_MODALITY = "modality";
-
 //----------------------------------------------------------------------------
 class ctkXnatExperimentPrivate : public ctkXnatObjectPrivate
 {
@@ -65,6 +60,12 @@ ctkXnatExperiment::ctkXnatExperiment(ctkXnatObject* parent, const QString& schem
 }
 
 //----------------------------------------------------------------------------
+ctkXnatExperiment::ctkXnatExperiment(ctkXnatObjectPrivate &dd, ctkXnatObject* parent, const QString& schemaType)
+: ctkXnatObject(dd, parent, schemaType)
+{
+}
+
+//----------------------------------------------------------------------------
 ctkXnatExperiment::~ctkXnatExperiment()
 {
 }
@@ -72,7 +73,11 @@ ctkXnatExperiment::~ctkXnatExperiment()
 //----------------------------------------------------------------------------
 QString ctkXnatExperiment::resourceUri() const
 {
-  return QString("%1/experiments/%2").arg(parent()->resourceUri(), this->id());
+  if (this->name().isEmpty())
+  {
+    return QString("%1/experiments/%2").arg(parent()->resourceUri(), this->id());
+  }
+  return QString("%1/experiments/%2").arg(parent()->resourceUri(), this->name());
 }
 
 //----------------------------------------------------------------------------
@@ -100,54 +105,6 @@ void ctkXnatExperiment::setLabel(const QString &label)
 }
 
 //----------------------------------------------------------------------------
-QString ctkXnatExperiment::dateOfAcquisition() const
-{
-  return this->property(DATE_OF_ACQUISITION);
-}
-
-//----------------------------------------------------------------------------
-void ctkXnatExperiment::setDateOfAcquisition(const QString &dateOfAcquisition)
-{
-  this->setProperty(DATE_OF_ACQUISITION, dateOfAcquisition);
-}
-
-//----------------------------------------------------------------------------
-QString ctkXnatExperiment::timeOfAcquisition() const
-{
-  return this->property(TIME_OF_ACQUISITION);
-}
-
-//----------------------------------------------------------------------------
-void ctkXnatExperiment::setTimeOfAcquisition(const QString &timeOfAcquisition)
-{
-  this->setProperty(TIME_OF_ACQUISITION, timeOfAcquisition);
-}
-
-//----------------------------------------------------------------------------
-QString ctkXnatExperiment::scannerType() const
-{
-  return this->property(SCANNER_TYPE);
-}
-
-//----------------------------------------------------------------------------
-void ctkXnatExperiment::setScannerType(const QString &scannerType)
-{
-  this->setProperty(SCANNER_TYPE, scannerType);
-}
-
-//----------------------------------------------------------------------------
-QString ctkXnatExperiment::imageModality() const
-{
-  return this->property(IMAGE_MODALITY);
-}
-
-//----------------------------------------------------------------------------
-void ctkXnatExperiment::setImageModality(const QString &imageModality)
-{
-  this->setProperty(IMAGE_MODALITY, imageModality);
-}
-
-//----------------------------------------------------------------------------
 void ctkXnatExperiment::reset()
 {
   ctkXnatObject::reset();
@@ -156,70 +113,7 @@ void ctkXnatExperiment::reset()
 //----------------------------------------------------------------------------
 void ctkXnatExperiment::fetchImpl()
 {
-  QString scansUri = this->resourceUri() + "/scans";
-  ctkXnatSession* const session = this->session();
-  QUuid scansQueryId = session->httpGet(scansUri);
-
-  QList<ctkXnatObject*> scans;
-  
-  try
-  {
-    scans = session->httpResults(scansQueryId,
-				 ctkXnatDefaultSchemaTypes::XSI_SCAN);
-  }
-  catch (const ctkException& e)
-  {
-    qWarning() << QString(e.what());
-  }
-
-  if (!scans.isEmpty())
-  {
-    ctkXnatScanFolder* scanFolder = new ctkXnatScanFolder();
-    this->add(scanFolder);
-  }
-
-  QString reconstructionsUri = this->resourceUri() + "/reconstructions";
-  QUuid reconstructionsQueryId = session->httpGet(reconstructionsUri);
-
-  QList<ctkXnatObject*> reconstructions;
-  try
-  {
-    reconstructions = session->httpResults(reconstructionsQueryId,
-					   ctkXnatDefaultSchemaTypes::XSI_RECONSTRUCTION);
-  }
-  catch (const ctkException& e)
-  {
-    qWarning() << QString(e.what());
-  }
-  
-  if (!reconstructions.isEmpty())
-  {
-    ctkXnatReconstructionFolder* reconstructionFolder = new ctkXnatReconstructionFolder();
-    this->add(reconstructionFolder);
-  }
-
-  QString assessorsUri = this->resourceUri() + "/assessors";
-  QUuid assessorsQueryId = session->httpGet(assessorsUri);
-  
-  QList<ctkXnatObject*> assessors;
-  
-  try
-  {
-    assessors = session->httpResults(assessorsQueryId,
-				     ctkXnatDefaultSchemaTypes::XSI_ASSESSOR);
-  }
-  catch (const ctkException& e)
-  {
-    qWarning() << QString(e.what());
-  }
-
-  if (!assessors.isEmpty())
-  {
-    ctkXnatAssessorFolder* assessorFolder = new ctkXnatAssessorFolder(this);
-    this->add(assessorFolder);
-  }
-
-  this->fetchResources();
+  // Implemented by subclasses ctkXnatImageSession and ctkXnatSubjectVariables
 }
 
 //----------------------------------------------------------------------------

@@ -44,6 +44,7 @@
 #include <QStringBuilder>
 #include <QNetworkCookie>
 
+
 #include <ctkXnatAPI_p.h>
 #include <qRestResult.h>
 
@@ -731,9 +732,9 @@ void ctkXnatSession::emitSessionTimeOut()
 }
 
 //----------------------------------------------------------------------------
-void ctkXnatSession::setUseSystemProxyConfiguration(bool status)
+void ctkXnatSession::setHttpNetworkProxy(const QNetworkProxy& proxy)
 {
   Q_D(ctkXnatSession);
 
-  d->xnat->setUseSystemProxyConfiguration(status);
+  d->xnat->setHttpNetworkProxy(proxy);
 }

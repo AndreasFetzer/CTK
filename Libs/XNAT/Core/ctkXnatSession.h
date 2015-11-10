@@ -32,6 +32,7 @@
 #include <QUuid>
 
 class QDateTime;
+class QNetworkProxy;
 
 class ctkXnatSessionPrivate;
 
@@ -159,7 +160,7 @@ public:
     */
   void setDefaultDownloadDir(const QString& path);
 
-  void setUseSystemProxyConfiguration(bool);
+  void setHttpNetworkProxy(const QNetworkProxy& proxy);
 
   /**
     * @brief returns the default download location
